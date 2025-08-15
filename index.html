@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Backwards Time + Crying Cat Stickers</title>
+  <title>Forward Time + Crying Cat Stickers</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@600&display=swap" rel="stylesheet" />
@@ -18,8 +18,8 @@
     .sticker-field{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
     .sticker{
       position:absolute;width:120px;height:120px;object-fit:cover;
-      opacity:1;            /* ~50% */
-      filter:blur(5px);      /* “50% blur” look */
+      opacity:1;
+      filter:blur(5px);
       transform:translate(-50%,-50%) rotate(0deg) scale(1);
       animation:drift linear infinite;
     }
@@ -50,10 +50,8 @@
   </div>
 
   <script>
-   
     const IMAGES = [
-      'crying-cat.png', // replace with your file name or a direct image URL
-      // You can duplicate to get more density or add more cat image URLs
+      'crying-cat.png',
       'crying-cat1.png',
       'crying-cat2.png',
       'crying-cat3.png',
@@ -89,31 +87,32 @@
       const frag = document.createDocumentFragment();
       for (let i = 0; i < count; i++) {
         const x = Math.random()*100, y = Math.random()*100;
-        const duration = 20 + Math.random()*25; // 20–45s
-        const delay = Math.random()*10;         // 0–10s
-        const scale = 0.7 + Math.random()*0.9;  // 0.7–1.6
+        const duration = 20 + Math.random()*25;
+        const delay = Math.random()*10;
+        const scale = 0.7 + Math.random()*0.9;
         const src = IMAGES[i % IMAGES.length];
         frag.appendChild(createSticker({ x, y, duration, delay, scale, src }));
       }
       field.appendChild(frag);
     }
 
-    // Backwards-running time
-    const baseNow = Date.now();
-    const two = n => String(n).padStart(2,'0');
-    const three = n => String(n).padStart(3,'0');
-    function updateClockBackward(){
-      const d = new Date(baseNow - (Date.now() - baseNow));
+    // Forward-running time (normal clock)
+    function updateClockForward(){
+      const d = new Date(); // Current time
       document.getElementById('time').textContent =
         `${two(d.getHours())}:${two(d.getMinutes())}:${two(d.getSeconds())}`;
       document.getElementById('milliseconds').textContent = three(d.getMilliseconds());
       document.getElementById('date').textContent =
-        d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'}) + ' (backwards)';
+        d.toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'});
     }
 
-    seedStickers(20);                 // more cats = more fun
-    setInterval(updateClockBackward, 33);
-    updateClockBackward();
+    // Helper functions for formatting
+    const two = n => String(n).padStart(2,'0');
+    const three = n => String(n).padStart(3,'0');
+
+    seedStickers(20);
+    setInterval(updateClockForward, 33);
+    updateClockForward();
   </script>
 </body>
 </html>
